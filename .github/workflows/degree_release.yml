@@ -31,7 +31,7 @@ jobs:
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           application_name: "degree-backend-release"
           environment_name: "degree-backend-release-dev"
-          region: "us-west-1"
+          region: "eu-west-1"
           version_label: ${{ github.sha }}
 
       # Déployer le projet sur Elastic Beanstalk
