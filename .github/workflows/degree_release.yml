@@ -21,7 +21,10 @@ jobs:
           if [ ! -f server.js ]; then
             echo "server.js file not found!"
             exit 1
+          else
+            echo"server.js file found "  
           fi
+
 
       # Configurer l'environnement AWS Elastic Beanstalk
       - name: Configure AWS Elastic Beanstalk environment
