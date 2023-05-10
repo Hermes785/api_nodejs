@@ -32,7 +32,9 @@ jobs:
           application_name: "degree-backend-release"
           environment_name: "degree-backend-release-dev"
           region: "eu-west-1"
-          version_label: ${{ github.sha }}
+          label: ${{ github.sha }}
+          #version_label: ${{ github.sha }}
+         #deploy_zip: "app.zip"
 
       # Déployer le projet sur Elastic Beanstalk
       - name: Deploy to Elastic Beanstalk
