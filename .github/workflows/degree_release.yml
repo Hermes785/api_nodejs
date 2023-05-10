@@ -38,7 +38,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-          
       - name: Install dependencies
-        run: npm install
+        run: |
+            npm install
+            npm install bcrypt@latest --save
         
       - name: Generate deployment package
         run: zip -r application.zip * .[^.]* -x "**node_modules**"
