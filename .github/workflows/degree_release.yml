@@ -1,0 +1,39 @@
+name: CI/CD pipeline
+
+# Déclencher le pipeline lorsqu'un commit est poussé sur la branche principale
+on:
+  push:
+    branches:
+      - release
+      - main
+
+jobs:
+  deploy-to-elastic-beanstalk:
+    runs-on: ubuntu-latest
+    steps:
+      # Récupérer le code source depuis le dépôt
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Trouver le fichier "server.js" dans le projet
+      - name: Find server.js file
+        run: |
+          if [ ! -f server.js ]; then
+            echo "server.js file not found!"
+            exit 1
+          fi
+
+      # Configurer l'environnement AWS Elastic Beanstalk
+      - name: Configure AWS Elastic Beanstalk environment
+        uses: einaregilsson/beanstalk-deploy@v16.2.0
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          application_name: "degree-backend-release"
+          environment_name: "degree-backend-release-dev"
+          region: "us-west-1"
+          version_label: "1"
+
+      # Déployer le projet sur Elastic Beanstalk
+      - name: Deploy to Elastic Beanstalk
+        run: eb deploy
