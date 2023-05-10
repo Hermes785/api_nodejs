@@ -33,7 +33,7 @@ jobs:
           environment_name: "degree-backend-release-dev"
           region: "eu-west-1"
           
-          version_label: "app-8f54-230510_000037008457"
+          version_label: "app-66e1-230510_145049751314"
        
 
       # Déployer le projet sur Elastic Beanstalk
