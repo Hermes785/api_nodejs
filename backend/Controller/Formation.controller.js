@@ -1,4 +1,4 @@
-const FormationModel = require('../models/formation.model');
+const FormationModel = require('../Models/formation.model');
 
 module.exports.getFormation = async (req, res) => {
     const formation = await FormationModel.find();
