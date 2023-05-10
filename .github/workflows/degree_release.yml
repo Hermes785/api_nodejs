@@ -22,7 +22,7 @@ jobs:
             echo "server.js file not found!"
             exit 1
           else
-            echo"server.js file found "  
+            echo "server.js file found "  
           fi
 
 
