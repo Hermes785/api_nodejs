@@ -39,15 +39,13 @@ jobs:
             ${{ runner.os }}-node-          
       - name: Install dependencies
         run: npm install
-
-      - name: Archive application
-        uses: einaregilsson/zip@v2
-        with:
-          args: -r application.zip .
+        
+      - name: Generate deployment package
+        run: zip -r application.zip * .[^.]* -x "**node_modules**"
 
       # Configurer l'environnement AWS Elastic Beanstalk
       - name: Configure AWS Elastic Beanstalk environment
-        uses: einaregilsson/beanstalk-deploy@v1
+        uses: einaregilsson/beanstalk-deploy@v16
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
