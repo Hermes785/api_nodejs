@@ -29,6 +29,14 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '16.x'
+
+      - name: Cache node_modules 
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-          
       - name: Install dependencies
         run: npm install
 
@@ -39,14 +47,14 @@ jobs:
 
       # Configurer l'environnement AWS Elastic Beanstalk
       - name: Configure AWS Elastic Beanstalk environment
-        uses: einaregilsson/aws-elastic-beanstalk-deploy@v3
+        uses: einaregilsson/beanstalk-deploy@v16
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           application_name: "degree-backend-release"
           environment_name: "degree-backend-release-dev"
           region: "eu-west-1"
-          version_label: ${{ github.sha }}
+          version_label: "version-label-${{ steps.format-time.outputs.replaced }}"
           wait_for_deployment: true
           deployment_package: application.zip
        
