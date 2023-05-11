@@ -37,8 +37,8 @@ app.use("/auth",require("./backend/Routes/AuthentificationGoogle.route.js"));
 
 app.use("/auth",require("./backend/Routes/AuthentificationFacebook.route.js"));
 
-app.use("api/register", require("./backend/Routes/User.route.js"))
+app.use("/api/register", require("./backend/Routes/User.route.js"))
 
-app.use('api/login',require("./backend/Routes/Login.route.js"))
+app.use('/api/login',require("./backend/Routes/Login.route.js"))
 
 app.listen(port,()=> console.log('le server a demarer sur le port'+" "+port));
