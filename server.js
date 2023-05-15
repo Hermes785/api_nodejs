@@ -8,8 +8,8 @@ const app = express();
 const port= process.env.PORT;
 //rend le .env connu dans tous le projet
 app.use(cors({ origin: 'http://localhost:3000' }));
-app.use(cors({ origin: 'http://localhost:3000' }));
-app.use(cors({ origin: 'http://degree-backend-release-dev.eu-west-1.elasticbeanstalk.com/formation' }));
+app.use(cors({ origin: 'http://degree-release.s3-website-eu-west-1.amazonaws.com' }));
+
 const connectDB = require('./backend/config/db.js');
 //const { loginWithLinkedInCallback } = require('./backend/Controller/AuthentificationLinkdin.controller.js');
 
