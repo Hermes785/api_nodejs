@@ -1,14 +1,25 @@
 const express = require('express');
 const dotenv = require("dotenv").config();
+const cors = require('cors');
 const LinkedInStrategy = require('passport-linkedin-oauth2').Strategy;
 const session = require('express-session');
 const passport = require('passport');
 const app = express();
 const port= process.env.PORT;
 //rend le .env connu dans tous le projet
-
+app.use(cors({ origin: 'http://localhost:3000' }));
+app.use(cors({ origin: 'http://localhost:3000' }));
+app.use(cors({ origin: 'http://degree-backend-release-dev.eu-west-1.elasticbeanstalk.com/formation' }));
 const connectDB = require('./backend/config/db.js');
 //const { loginWithLinkedInCallback } = require('./backend/Controller/AuthentificationLinkdin.controller.js');
+
+// Middleware pour permettre les requêtes CORS depuis votre domaine React
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+});
 
 app.use(express.json());
 
