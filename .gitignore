@@ -1,7 +1,4 @@
- .elasticbeanstalk/
- Tests/
-backend/.gitignore
-backend/server.js
+.elasticbeanstalk/
 node_modules/
 /node_modules
 /.elasticbeanstalk/
