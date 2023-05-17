@@ -18,20 +18,16 @@ module.exports.createUser= async (req,res)=>{
     email:req.body.email,
     password:hashedPassword
     
-  
-
-
  })
  if(user){
     console.log(req.body)
     res.status(200).json(user)
-
+//Générer un token JWT en utilisant la bibliothèque jsonwebtoken, en y incluant l'ID de l'utilisateur nouvellement créé
+const token = jwt.sign({ userId: user._id }, secretKey, { expiresIn: '45m' });
+  
 
  }else{
-    //Générer un token JWT en utilisant la bibliothèque jsonwebtoken, en y incluant l'ID de l'utilisateur nouvellement créé
-    const token = jwt.sign({ userId: user._id }, secretKey, { expiresIn: '24h' });
-  
-  
+    
     res.status(400).json({message:"une erreur est survenue"})
 
  }

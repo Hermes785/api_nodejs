@@ -60,3 +60,4 @@ app.use("/api/register", require("./backend/Routes/User.route.js"))
 app.use('/api/login',require("./backend/Routes/Login.route.js"))
 
 app.listen(port,()=> console.log('le server a demarer sur le port'+" "+port));
+module.exports = app;
