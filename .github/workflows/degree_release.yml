@@ -38,22 +38,19 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node- 
 
-           
-
-
       - name: Install dependencies
 
-        run: npm install  node-gyp -g
-           
-            # Étape : Installation des dépendances pour bcrypt
+       run: npm ci
+
+      # Étape : Installation des dépendances pour bcrypt
       - name: Install bcrypt dependencies
         run: |
+          npm install node-gyp -g
           sudo apt-get update && sudo apt-get install -y build-essential
-          npm install bcrypt@latest --save --build-from-source --bcrypt_hint_path=./node_modules/bcrypt
+          npm install bcrypt --build-from-source --bcrypt_hint_path=./node_modules/bcrypt
 
-
-
-      - name: run test
+      # Étape : Exécution des tests
+      - name: Run tests
         run: npm test ././././Tests
 
       - name: Generate deployment package
