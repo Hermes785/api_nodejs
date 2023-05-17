@@ -1,0 +1,77 @@
+name: CI/CD pipeline
+
+# Déclencher le pipeline lorsqu'un commit est poussé sur la branche principale
+on:
+  push:
+    branches:
+      - release
+      - main
+
+jobs:
+  deploy-to-elastic-beanstalk:
+    runs-on: ubuntu-latest
+    steps:
+      # Récupérer le code source depuis le dépôt
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Trouver le fichier "server.js" dans le projet
+      - name: Find server.js file
+        run: |
+          if [ ! -f server.js ]; then
+            echo "server.js file not found!"
+            exit 1
+          else
+            echo "server.js file found "  
+          fi
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16.x'
+
+      - name: Cache node_modules 
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-          
+      - name: Install dependencies
+        run: |
+            npm install
+            npm install bcrypt@latest --save
+        
+      - name: Generate deployment package
+        run: zip -r application.zip * .[^.]* -x "**node_modules**"
+
+      - name: Get timestamp
+        uses: gerred/actions/current-time@master
+        id: current-time
+
+      - name: Run string replace
+        uses: frabert/replace-string-action@master
+        id: format-time
+        with:
+          pattern: '[:\.]+'
+          string: "${{ steps.current-time.outputs.time }}"
+          replace-with: '-'
+          flags: 'g'
+          
+      # Configurer l'environnement AWS Elastic Beanstalk
+      - name: Configure AWS Elastic Beanstalk environment
+        uses: einaregilsson/beanstalk-deploy@v16
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          application_name: "degree-backend-release"
+          environment_name: "degree-backend-release-dev"
+          region: "eu-west-1"
+          version_label: "version-label-${{ steps.format-time.outputs.replaced }}"
+          wait_for_deployment: true
+          deployment_package: application.zip
+       
+
+      # Déployer le projet sur Elastic Beanstalk
+      - name: Deploy to Elastic Beanstalk
+        run: eb deploy
