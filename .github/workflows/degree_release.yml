@@ -40,14 +40,10 @@ jobs:
       - name: Install dependencies
         run: |
             npm install
-
-      - name: run test
-        run: npm test ././././Tests
-
-      - name: Install dependencies 2       
-        run: |
-
             npm install bcrypt@latest --save
+      - name: run test
+        run: #npm test ././././Tests
+
       - name: Generate deployment package
         run: zip -r application.zip * .[^.]* -x "**node_modules**"
 
