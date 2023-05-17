@@ -1,0 +1,22 @@
+branch-defaults:
+  main:
+    environment: degree-backend-release-dev
+    group_suffix: null
+environment-defaults:
+  degree-backend-release-dev:
+    branch: null
+    repository: null
+global:
+  application_name: degree-backend-release
+  branch: null
+  default_ec2_keyname: degree_backend_keypair
+  default_platform: Node.js 16 running on 64bit Amazon Linux 2
+  default_region: eu-west-1
+  include_git_submodules: true
+  instance_profile: null
+  platform_name: null
+  platform_version: null
+  profile: degree_deploy_backend
+  repository: null
+  sc: git
+  workspace_type: Application
