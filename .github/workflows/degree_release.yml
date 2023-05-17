@@ -46,7 +46,7 @@ jobs:
 
       - name: Run tests
         run: |
-          run: npm test --exit ././././Tests
+          npm test --exit ././././Tests
 
       - name: Generate deployment package
         run: zip -r application.zip * .[^.]* -x "**node_modules**"
