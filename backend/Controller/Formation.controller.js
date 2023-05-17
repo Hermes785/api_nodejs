@@ -1,4 +1,4 @@
-const FormationModel = require('../Models/formation.model');
+const FormationModel = require('../Models/Tranning.model');
 
 module.exports.getFormation = async (req, res) => {
     const formation = await FormationModel.find();
@@ -23,8 +23,8 @@ module.exports.postFormation = async (req, res) => {
             outlet: req.body.outlet,
             price: req.body.price,
             picture: req.file.path,
-            ville: req.body.ville,
-
+            city: req.body.city,
+            school: req.body.school
         })
 
         if (formation) {

@@ -7,7 +7,7 @@ const formationShema = mongoose.Schema(
             required: true
 
         },
-        
+
         description: {
             type: String,
             required: true
@@ -21,18 +21,22 @@ const formationShema = mongoose.Schema(
             type: [String],
             required: true
         },
-        price:{
+        price: {
             type: Number,
             required: true
         },
 
-        picture:{
+        picture: {
             type: String,
             required: true
         },
-        ville:{
-            type:String,
-            required:true
+        city: {
+            type: String,
+            required: true
+        },
+        school: {
+            type: String,
+            required: true
         }
 
     },
@@ -42,4 +46,4 @@ const formationShema = mongoose.Schema(
     }
 
 );
-module.exports = mongoose.model('formation',formationShema)
+module.exports = mongoose.model('formation', formationShema)

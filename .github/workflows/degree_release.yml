@@ -1,5 +1,6 @@
 name: CI/CD pipeline
 
+# Déclencher le pipeline lorsqu'un commit est poussé sur la branche principale
 on:
   push:
     branches:
@@ -10,42 +11,40 @@ jobs:
   deploy-to-elastic-beanstalk:
     runs-on: ubuntu-latest
     steps:
+      # Récupérer le code source depuis le dépôt
       - name: Checkout code
         uses: actions/checkout@v2
 
+      # Trouver le fichier "server.js" dans le projet
       - name: Find server.js file
         run: |
           if [ ! -f server.js ]; then
             echo "server.js file not found!"
             exit 1
           else
-            echo "server.js file found"  
+            echo "server.js file found "  
           fi
 
-      - name: Setup Node.js
+      - name: Setup Node.js & Install bcrypt dependencies
         uses: actions/setup-node@v2
         with:
           node-version: '16.x'
 
-      - name: Cache node_modules
+      - name: Cache node_modules 
         uses: actions/cache@v2
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-node-
-
+            ${{ runner.os }}-node-          
       - name: Install dependencies
         run: |
-          npm ci
-
-      - name: Install bcrypt dependencies
-        run: |
-          npm install node-gyp -g
+            npm install  node-gyp -g
           sudo apt-get update && sudo apt-get install -y build-essential
           npm install bcrypt --build-from-source --bcrypt_hint_path=./node_modules/bcrypt
 
-      - name: Run tests
+
+      - name: run test
         run: npm test ././././Tests
 
       - name: Generate deployment package
@@ -63,7 +62,8 @@ jobs:
           string: "${{ steps.current-time.outputs.time }}"
           replace-with: '-'
           flags: 'g'
-
+          
+      # Configurer l'environnement AWS Elastic Beanstalk
       - name: Configure AWS Elastic Beanstalk environment
         uses: einaregilsson/beanstalk-deploy@v16
         with:
@@ -75,6 +75,8 @@ jobs:
           version_label: "version-label-${{ steps.format-time.outputs.replaced }}"
           wait_for_deployment: true
           deployment_package: application.zip
+       
 
+      # Déployer le projet sur Elastic Beanstalk
       - name: Deploy to Elastic Beanstalk
         run: eb deploy
