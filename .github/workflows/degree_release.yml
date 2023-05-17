@@ -25,7 +25,7 @@ jobs:
             echo "server.js file found "  
           fi
 
-      - name: Setup Node.js 
+      - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
           node-version: '16.x'
@@ -36,12 +36,21 @@ jobs:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-node-          
-      - name: Install dependencies & Install bcrypt dependencies
+            ${{ runner.os }}-node- 
+
+           
+
+
+      - name: Install dependencies
+
+        run: npm install  node-gyp -g
+           
+            # Étape : Installation des dépendances pour bcrypt
+      - name: Install bcrypt dependencies
         run: |
-            npm install  node-gyp -g
           sudo apt-get update && sudo apt-get install -y build-essential
-          npm install bcrypt --build-from-source --bcrypt_hint_path=./node_modules/bcrypt
+          npm install bcrypt@latest --save --build-from-source --bcrypt_hint_path=./node_modules/bcrypt
+
 
 
       - name: run test
