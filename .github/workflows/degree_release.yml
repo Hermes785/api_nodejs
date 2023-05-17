@@ -25,7 +25,7 @@ jobs:
             echo "server.js file found "  
           fi
 
-      - name: Setup Node.js & Install bcrypt dependencies
+      - name: Setup Node.js 
         uses: actions/setup-node@v2
         with:
           node-version: '16.x'
@@ -37,7 +37,7 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-          
-      - name: Install dependencies
+      - name: Install dependencies & Install bcrypt dependencies
         run: |
             npm install  node-gyp -g
           sudo apt-get update && sudo apt-get install -y build-essential
