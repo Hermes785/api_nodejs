@@ -1,6 +1,5 @@
 name: CI/CD pipeline
 
-# Déclencher le pipeline lorsqu'un commit est poussé sur la branche principale
 on:
   push:
     branches:
@@ -11,36 +10,38 @@ jobs:
   deploy-to-elastic-beanstalk:
     runs-on: ubuntu-latest
     steps:
-      # Récupérer le code source depuis le dépôt
+      # Étape : Récupérer le code source depuis le dépôt
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Trouver le fichier "server.js" dans le projet
+      # Étape : Vérifier la présence du fichier "server.js"
       - name: Find server.js file
         run: |
           if [ ! -f server.js ]; then
             echo "server.js file not found!"
             exit 1
           else
-            echo "server.js file found "  
+            echo "server.js file found"  
           fi
 
+      # Étape : Configuration de Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
           node-version: '16.x'
 
-      - name: Cache node_modules 
+      # Étape : Mise en cache des node_modules
+      - name: Cache node_modules
         uses: actions/cache@v2
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-node- 
+            ${{ runner.os }}-node-
 
+      # Étape : Installation des dépendances avec npm ci
       - name: Install dependencies
-
-       run: npm ci
+        run: npm ci
 
       # Étape : Installation des dépendances pour bcrypt
       - name: Install bcrypt dependencies
@@ -53,13 +54,16 @@ jobs:
       - name: Run tests
         run: npm test ././././Tests
 
+      # Étape : Génération du package de déploiement
       - name: Generate deployment package
         run: zip -r application.zip * .[^.]* -x "**node_modules**"
 
+      # Étape : Récupération du timestamp
       - name: Get timestamp
         uses: gerred/actions/current-time@master
         id: current-time
 
+      # Étape : Remplacement des caractères spéciaux dans le timestamp
       - name: Run string replace
         uses: frabert/replace-string-action@master
         id: format-time
@@ -68,8 +72,8 @@ jobs:
           string: "${{ steps.current-time.outputs.time }}"
           replace-with: '-'
           flags: 'g'
-          
-      # Configurer l'environnement AWS Elastic Beanstalk
+
+      # Étape : Configuration de l'environnement AWS Elastic Beanstalk
       - name: Configure AWS Elastic Beanstalk environment
         uses: einaregilsson/beanstalk-deploy@v16
         with:
@@ -81,8 +85,7 @@ jobs:
           version_label: "version-label-${{ steps.format-time.outputs.replaced }}"
           wait_for_deployment: true
           deployment_package: application.zip
-       
 
-      # Déployer le projet sur Elastic Beanstalk
+      # Étape : Déploiement sur Elastic Beanstalk
       - name: Deploy to Elastic Beanstalk
         run: eb deploy
