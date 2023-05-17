@@ -42,9 +42,8 @@ jobs:
             npm install
             npm install bcrypt@latest --save
       - name: run test
-        run: |
-            npm test ././././Tests
-                   
+        run: npm test ././././Tests
+
       - name: Generate deployment package
         run: zip -r application.zip * .[^.]* -x "**node_modules**"
 
