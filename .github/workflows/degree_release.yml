@@ -46,8 +46,7 @@ jobs:
 
       - name: Run tests
         run: |
-          npm test ././././Tests || exit 0 # Exécuter les tests et ignorer l'erreur (code de sortie non nul)
-          echo "Tests passed. Continuing with pipeline."
+          run: npm test --runInBand ././././Tests
 
       - name: Generate deployment package
         run: zip -r application.zip * .[^.]* -x "**node_modules**"
