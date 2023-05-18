@@ -45,11 +45,8 @@ jobs:
           npm install bcrypt --build-from-source --bcrypt_hint_path=./node_modules/bcrypt
 
       - name: Run tests and stop server
-        run: npm test --timeout 1m ././././Tests --exit
+        run: npm test  ././././Tests
        
-      - name: stop server
-        run: pkill -f "node server.js"
-
       - name: Generate deployment package
         run: zip -r application.zip * .[^.]* -x "**node_modules**"
 
