@@ -21,7 +21,7 @@ Given('there is a user with the name {string}, email {string} and the password {
 
 When('the user enters their email {string} and password {string}', async function (email, password) {
 
-  response = await request(app).get("/api/login").send({
+  response = await request(app).post("/api/login").send({
     email: email,
     password: password,
   });

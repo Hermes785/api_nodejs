@@ -1,6 +1,6 @@
 const FormationModel = require('../Models/Tranning.model');
 
-module.exports.getFormation = async (req, res) => {
+module.exports.getTraining = async (req, res) => {
     const formation = await FormationModel.find();
     res.status(200).json(formation)
 }
@@ -8,7 +8,7 @@ const multer = require('multer');
 const upload = multer({ dest: './backend/uploads' }); // configure le dossier de destination des fichiers uploadés
 
 //this fuction create a new formation in the database
-module.exports.postFormation = async (req, res) => {
+module.exports.postTraining = async (req, res) => {
     upload.single('picture')(req, res, async function (err) {
 
         if (err) {
@@ -40,7 +40,7 @@ module.exports.postFormation = async (req, res) => {
 
 
 //this function  delete a formation in the database the first about this function verify if the id exist in the database 
-module.exports.deleteFormation = async (req, res) => {
+module.exports.deleteTraining = async (req, res) => {
     const formation = await FormationModel.findById(req.params.id);
     if (!formation) {
         res.status(404).json({ message: 'formation non trouvée' });
@@ -52,7 +52,7 @@ module.exports.deleteFormation = async (req, res) => {
 
 
 // this function update a formation in the database the first about this function verify if the id exist in the database 
-module.exports.updateFormation = async (req, res) => {
+module.exports.updateTraining = async (req, res) => {
     const formation = await FormationModel.findById(req.params.id);
     if (!formation) {
         res.status(404).json({ message: 'formation non trouvée' });
@@ -65,7 +65,7 @@ module.exports.updateFormation = async (req, res) => {
 
 
 // this function  list all the formation in the database
-module.exports.getFormationById = async (req, res) => {
+module.exports.getTrainingById = async (req, res) => {
     const formation = await FormationModel.findById(req.params.id);
     res.status(200).json(formation);
 };

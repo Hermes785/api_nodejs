@@ -5,40 +5,35 @@ const LinkedInStrategy = require('passport-linkedin-oauth2').Strategy;
 const session = require('express-session');
 const passport = require('passport');
 const app = express();
-const port= process.env.PORT;
-//rend le .env connu dans tous le projet
-
-app.use(cors({ origin: ['http://localhost:3000', 'http://degree-release.s3-website-eu-west-1.amazonaws.com'] }));
-
 const connectDB = require('./backend/config/db.js');
-//const { loginWithLinkedInCallback } = require('./backend/Controller/AuthentificationLinkdin.controller.js');
+const port = process.env.PORT;
+//rend le .env connu dans tous le projet
+//Middleware pour permettre les requêtes CORS depuis le frontend
+const corsOptions = {
+  origin: [
+    'http://localhost:3000',
+    'http://degree-release.s3-website-eu-west-1.amazonaws.com',
+    'https://www.linkedin.com',
+    'http://localhost:5000/auth/callback/linkedin',
+    ''
+  ]
+};
 
-// Middleware pour permettre les requêtes CORS depuis votre domaine React
-/*app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  next();
-});
+app.use(cors(corsOptions));
 
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', 'http://degree-release.s3-website-eu-west-1.amazonaws.com');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  next();
-});
-*/
 app.use(express.json());
 
-app.use(express.urlencoded({extended:false}));
+app.use(express.urlencoded({ extended: false }));
 
 connectDB();
-// Configuration de la session
+
+// Configuration de la session et de passport
 const sessionConfig = {
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false
-  };
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false
+};
+
 // Ajout du middleware session
 app.use(session(sessionConfig));
 
@@ -47,17 +42,20 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-app.use("/formation",require("./backend/Routes/Formation.route.js"));
+// Routes
+app.use('/formation', require('./backend/Routes/Trainning.route.js'));
 
-app.use("/auth",require("./backend/Routes/AuthentificationLinkdin.route.js"));
+app.use('/auth', require('./backend/Routes/AuthentificationLinkdin.route.js'));
 
-app.use("/auth",require("./backend/Routes/AuthentificationGoogle.route.js"));
+app.use('/auth', require('./backend/Routes/AuthentificationGoogle.route.js'));
 
-app.use("/auth",require("./backend/Routes/AuthentificationFacebook.route.js"));
+app.use('/auth', require('./backend/Routes/AuthentificationFacebook.route.js'));
 
-app.use("/api/register", require("./backend/Routes/User.route.js"))
+app.use('/api', require('./backend/Routes/User.route.js'));
 
-app.use('/api/login',require("./backend/Routes/Login.route.js"))
+app.use('/api', require('./backend/Routes/Login.route.js'));
 
-app.listen(port,()=> console.log('le server a demarer sur le port'+" "+port));
+// Lancement du serveur
+app.listen(port, () => console.log('Le serveur a démarré sur le port ' + port));
+
 module.exports = app;

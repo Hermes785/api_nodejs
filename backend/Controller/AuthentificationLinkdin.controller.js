@@ -26,7 +26,7 @@ passport.use(new LinkedInStrategy(
         // Si l'utilisateur existe déjà, met à jour les informations de l'utilisateur
         user.name = name;
         user.email = email;
-        user.password=password
+        user.password = password
         user.accessToken = accessToken;
         user.refreshToken = refreshToken;
         await user.save();
@@ -43,7 +43,7 @@ passport.use(new LinkedInStrategy(
         });
         await user.save();
       }
- console.log(accessToken); 
+      console.log(accessToken);
 
       // Connecte l'utilisateur et renvoie la réponse
       done(null, { user });
