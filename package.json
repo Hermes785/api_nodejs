@@ -7,7 +7,7 @@
   },
   "main": "server.js",
   "scripts": {
-    "test": "cucumber-js  --exit",
+    "test": "cucumber-js --exit ",
     "server": "nodemon server.js"
   },
   "author": "",
