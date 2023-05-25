@@ -31,6 +31,14 @@ module.exports.createUser = async (req, res) => {
         password: hashedPassword
 
     })
+
+    const checkemail = await UserModel.find({ email: req.body.email });
+
+    if (checkemail) {
+        res.status(400).json({ message: " this email is already in use" })
+    }
+
+
     if (user) {
         console.log(req.body)
         res.status(200).json(user)
@@ -40,6 +48,7 @@ module.exports.createUser = async (req, res) => {
         res.status(400).json({ message: "une erreur est survenue" })
 
     }
+
 }
 
 module.exports.DeleteUser = async (req, res) => {
@@ -60,4 +69,6 @@ module.exports.UpdateUser = async (req, res) => {
     const userM = await UserModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
     res.status(200).json(userM);
 }
+
+
 

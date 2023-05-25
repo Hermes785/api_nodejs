@@ -14,12 +14,15 @@ const corsOptions = {
     'http://localhost:3000',
     'http://degree-release.s3-website-eu-west-1.amazonaws.com',
     'https://www.linkedin.com',
-    'http://localhost:5000/auth/callback/linkedin',
-    ''
-  ]
+    'http://localhost:5000',
+    'https://www.linkedin.com/oauth/v2/accessToken'
+  ],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true, // Permet l'utilisation de cookies avec les requêtes CORS
 };
 
-app.use(cors(corsOptions));
+
 
 app.use(express.json());
 
@@ -42,8 +45,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
+app.use(cors(corsOptions));
 // Routes
-app.use('/formation', require('./backend/Routes/Trainning.route.js'));
+app.use('/api', require('./backend/Routes/Trainning.route.js'));
 
 app.use('/auth', require('./backend/Routes/AuthentificationLinkdin.route.js'));
 
@@ -57,5 +61,8 @@ app.use('/api', require('./backend/Routes/Login.route.js'));
 
 // Lancement du serveur
 app.listen(port, () => console.log('Le serveur a démarré sur le port ' + port));
+
+
+
 
 module.exports = app;

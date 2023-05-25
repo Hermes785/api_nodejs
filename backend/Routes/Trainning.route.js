@@ -1,15 +1,19 @@
 const express = require('express');
-const { postTraining, getTraining, updateTraining, deleteTraining } = require('../Controller/Trainning.controller');
+const { postTraining, getTraining, updateTraining, deleteTraining, getSearch, getTrainingById } = require('../Controller/Trainning.controller');
+const { getServers } = require('dns');
 
 const router = express.Router();
 
 
-router.get('/', getTraining);
+router.get('/training', getTraining);
 
-router.post('/', postTraining);
+router.post('/training', postTraining);
 
-router.put('/:id', updateTraining);
+router.put('/training/:id', updateTraining);
 
-router.delete('/:id', deleteTraining);
+router.delete('/training/:id', deleteTraining);
 
+router.get('/training/search', getSearch)
+
+router.get('/trainingId/:id', getTrainingById)
 module.exports = router;

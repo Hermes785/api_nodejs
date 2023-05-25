@@ -37,7 +37,9 @@ const formationShema = mongoose.Schema(
         school: {
             type: String,
             required: true
-        }
+        },
+
+        users: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
 
     },
 
