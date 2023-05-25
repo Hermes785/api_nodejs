@@ -5,7 +5,7 @@ const { getTraining, postTraining, updateTraining, deleteTraining, getTrainingBy
 const router = express.Router();
 
 
-router.get('/training/:id', getTraining);
+router.get('/training', getTraining);
 
 router.post('/training', postTraining);
 
