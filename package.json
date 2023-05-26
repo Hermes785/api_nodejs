@@ -8,7 +8,8 @@
   "main": "server.js",
   "scripts": {
     "test": "cucumber-js --exit ",
-    "server": "nodemon server.js"
+    "build": " env-cmd -f .env.production nodemon server.js",
+    "server": "env-cmd -f .env.development nodemon server.js"
   },
   "author": "",
   "license": "ISC",
@@ -18,6 +19,7 @@
     "cors": "^2.8.5",
     "cucumber": "^6.0.7",
     "dotenv": "^16.0.3",
+    "env-cmd": "^10.1.0",
     "express": "^4.18.2",
     "express-session": "^1.17.3",
     "express-validator": "^7.0.1",

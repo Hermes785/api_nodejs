@@ -6,7 +6,9 @@ const session = require('express-session');
 const passport = require('passport');
 const app = express();
 const connectDB = require('./backend/config/db.js');
-const port = process.env.PORT;
+const Setting = require("./backend/config/setting.js")
+
+const port = Setting.Setting().port;
 //rend le .env connu dans tous le projet
 //Middleware pour permettre les requêtes CORS depuis le frontend
 const corsOptions = {
@@ -32,7 +34,7 @@ connectDB();
 
 // Configuration de la session et de passport
 const sessionConfig = {
-  secret: process.env.SESSION_SECRET,
+  secret: Setting.Setting().session_secret,
   resave: false,
   saveUninitialized: false
 };

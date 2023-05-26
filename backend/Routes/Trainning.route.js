@@ -5,9 +5,9 @@ const { getTraining, postTraining, updateTraining, deleteTraining, getTrainingBy
 const router = express.Router();
 
 
-router.get('/training/:id', getTraining);
+router.get('/training', getTraining);
 
-router.post('/training', postTraining);
+router.post('/training/create', postTraining);
 
 router.put('/training/:id', updateTraining);
 
@@ -15,6 +15,6 @@ router.delete('/training/:id', deleteTraining);
 
 router.get('/trainingId/:id', getTrainingById);
 
-router.get('/training/search', getSearch)
+router.post('/training/search', getSearch)
 
 module.exports = router;
