@@ -23,7 +23,7 @@ module.exports.postTraining = async (req, res) => {
             duration: req.body.duration,
             outlet: req.body.outlet,
             price: req.body.price,
-            picture: req.file.path,
+            //picture: req.file.path,
             city: req.body.city,
             school: req.body.school
         })
@@ -80,8 +80,8 @@ exports.getSearch = async (req, res) => {
         try {
             const searchResult = await FormationModel.find({
                 $or: [
-                    { title: { $regex: `^${search}`, $options: "i" } },
-                    { city: { $regex: `^${search}`, $options: 'i' } },
+                    { title: { $regex: `${search}`, $options: "i" } },
+                    { city: { $regex: `${search}`, $options: 'i' } },
                 ]
             });
 

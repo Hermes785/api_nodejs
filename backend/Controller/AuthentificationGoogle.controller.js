@@ -2,13 +2,13 @@ const User = require('../Models/User.model');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
-
+const setting = require('../config/setting');
 // Configure la stratégie d'authentification Google
 passport.use(new GoogleStrategy(
   {
-    clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: process.env.GOOGLE_CALLBACK_URL
+    clientID: setting.Setting().url_google_id,
+    clientSecret: setting.Setting().url_google_key,
+    callbackURL: setting.Setting().url_google_callback
   },
   async (accessToken, refreshToken, profile, done) => {
     try {
@@ -76,7 +76,7 @@ exports.loginWithGoogleCallback = (req, res, next) => {
     }
     if (!user) {
       console.log('Authentication failed');
-      return res.redirect('/registration');
+      return res.redirect(`${setting.Setting().url_home}/registration`);
     }
 
     req.logIn(user, (err) => {
@@ -91,7 +91,7 @@ exports.loginWithGoogleCallback = (req, res, next) => {
       // Effectuez d'autres actions avec l'accessToken si nécessaire
 
       // Effectue la redirection vers http://localhost:3000/ avec le code de statut 302
-      return res.redirect(`http://localhost:3000/${accessToken}`);
+      return res.redirect(`${setting.Setting().url_home}/${accessToken}`);
     });
   })(req, res, next);
 };

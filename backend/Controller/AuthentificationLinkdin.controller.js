@@ -3,14 +3,14 @@ const LinkedInStrategy = require('passport-linkedin-oauth2').Strategy;
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
-
+const setting = require('../config/setting');
 // Configure la stratégie d'authentification LinkedIn
 passport.use(
   new LinkedInStrategy(
     {
-      clientID: process.env.LINKEDIN_CLIENT_ID,
-      clientSecret: process.env.LINKEDIN_CLIENT_SECRET,
-      callbackURL: process.env.LINKEDIN_CALLBACK_URL,
+      clientID: setting.Setting().url_linkedin_id,
+      clientSecret: setting.Setting().url_linkedin_key,
+      callbackURL: setting.Setting().url_linkedin_callback,
       scope: ['r_emailaddress', 'r_liteprofile'],
     },
     async (accessToken, refreshToken, profile, done) => {
@@ -43,7 +43,7 @@ passport.use(
         }
 
         // Génère un token JWT
-        const token = jwt.sign({ userId: user._id }, process.env.secretKey, { expiresIn: '30m' });
+        const token = jwt.sign({ userId: user._id }, setting.Setting().key_secret, { expiresIn: '30m' });
 
         // Connecte l'utilisateur et renvoie la réponse avec le token JWT
         done(null, { user, token });
@@ -83,7 +83,7 @@ exports.loginWithLinkedInCallback = (req, res, next) => {
     }
     if (!user) {
       console.log('Authentication failed');
-      return res.redirect('/registration');
+      return res.redirect(`${setting.Setting().url_home}/registration`);
     }
 
     req.logIn(user, (err) => {
@@ -98,7 +98,8 @@ exports.loginWithLinkedInCallback = (req, res, next) => {
       // Effectuez d'autres actions avec l'accessToken si nécessaire
 
       // Effectue la redirection vers http://localhost:3000/ avec le code de statut 302
-      return res.redirect(`http://localhost:3000/${accessToken}`);
+      return res.redirect(`${setting.Setting().url_home}/${accessToken}`);
+
     });
   })(req, res, next);
 };

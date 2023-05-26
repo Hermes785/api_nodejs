@@ -28,7 +28,7 @@ const formationShema = mongoose.Schema(
 
         picture: {
             type: String,
-            required: true
+            //required: true
         },
         city: {
             type: String,
