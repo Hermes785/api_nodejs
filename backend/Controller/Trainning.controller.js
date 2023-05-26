@@ -82,6 +82,7 @@ exports.getSearch = async (req, res) => {
                 $or: [
                     { title: { $regex: `${search}`, $options: "i" } },
                     { city: { $regex: `${search}`, $options: 'i' } },
+                    { description: { $regex: `${search}`, $options: 'i' } },
                 ]
             });
 
