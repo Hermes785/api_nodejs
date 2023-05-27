@@ -1,7 +1,7 @@
-const dotenv = require('dotenv');
+const dotenv = require('dotenv').config();
 
 module.exports.Setting = () => {
-    dotenv.config();
+
 
     const url_linkedin_id = process.env.LINKEDIN_CLIENT_ID;
     const url_linkedin_callback = process.env.LINKEDIN_CALLBACK_URL;
