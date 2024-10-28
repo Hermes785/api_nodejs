@@ -25,6 +25,9 @@ module.exports.Setting = () => {
 
     const database_url = process.env.MONGO_URI;
 
+
+    console.log(process.env.NODE_ENV)
+
     return {
         url_linkedin_id,
         url_linkedin_callback,
@@ -41,4 +44,5 @@ module.exports.Setting = () => {
         key_secret,
         database_url
     };
+
 };
